@@ -1,0 +1,67 @@
+"""
+Python program to create a simple car rental system with classes for Car, Customer, and Rental.
+Implement methods to rent a car, return a car, and display the list of rented cars.
+"""
+
+class Car:
+    def __init__(self, car_id, model, available=True):
+        self.car_id = car_id
+        self.model = model
+        self.available = available
+
+    def __str__(self):
+        return f"Car {self.car_id} - {self.model}"
+
+class Customer:
+    def __init__(self, customer_id, name):
+        self.customer_id = customer_id
+        self.name = name
+
+    def __str__(self):
+        return f"Customer {self.customer_id} - {self.name}"
+
+class Rental:
+    def __init__(self):
+        self.rented_cars = []
+
+    def rent_car(self, customer, car):
+        if car.available:
+            car.available = False
+            self.rented_cars.append((customer, car))
+            print(f"{customer} has rented {car}.")
+        else:
+            print(f"{car} is not available for rent.")
+
+    def return_car(self, customer, car):
+        if (customer, car) in self.rented_cars:
+            car.available = True
+            self.rented_cars.remove((customer, car))
+            print(f"{customer} has returned {car}.")
+        else:
+            print(f"{customer} did not rent {car} from this rental service.")
+
+    def display_rented_cars(self):
+        if not self.rented_cars:
+            print("No cars are currently rented.")
+        else:
+            print("Rented cars:")
+            for customer, car in self.rented_cars:
+                print(f"{customer} - {car}")
+
+# Example usage:
+if __name__ == "__main__":
+    car1 = Car(1, "Toyota Camry")
+    car2 = Car(2, "Honda Accord")
+    car3 = Car(3, "Ford Mustang")
+
+    customer1 = Customer(101, "Alice")
+    customer2 = Customer(102, "Bob")
+
+    rental_system = Rental()
+
+    rental_system.rent_car(customer1, car1)
+    rental_system.rent_car(customer2, car2)
+    rental_system.display_rented_cars()
+
+    rental_system.return_car(customer1, car1)
+    rental_system.display_rented_cars()
